@@ -1337,7 +1337,7 @@
 #endif // HAS_MARLINUI_MENU
 
 #if ANY(HAS_DISPLAY, DWIN_LCD_PROUI, DWIN_CREALITY_LCD_JYERSUI)
-  #define SOUND_MENU_ITEM   // Add a mute option to the LCD menu  //Swaggy 3-20
+  //#define SOUND_MENU_ITEM   // Add a mute option to the LCD menu
 #endif
 
 #if EITHER(HAS_DISPLAY, DWIN_LCD_PROUI)
@@ -1352,13 +1352,13 @@
   #endif
 
   // Scroll a longer status message into view
-  #define STATUS_MESSAGE_SCROLLING  //Swaggy 3-20
+  //#define STATUS_MESSAGE_SCROLLING  
 
   // On the Info Screen, display XY with one decimal place when possible
   //#define LCD_DECIMAL_SMALL_XY
 
   // Add an 'M73' G-code to set the current percentage
-  #define LCD_SET_PROGRESS_MANUALLY //Swaggy 3-20
+  //#define LCD_SET_PROGRESS_MANUALLY 
 
   // Show the E position (filament used) during printing
   //#define LCD_SHOW_E_TOTAL
