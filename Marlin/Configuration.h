@@ -166,24 +166,26 @@
 #define Total_Probing_Points ( GRID_MAX_POINTS_X * GRID_MAX_POINTS_X)
 #define CUSTOM_MACHINE_NAME "SwagDad 99.10 - "  STRINGIFY(Total_Probing_Points) " Points"
 
-//Swaggy
-//  .2  ENABLED SHOW TOTAL BABYSTEP
-//  .3  Saved Z-offset. #define NOZZLE_TO_PROBE_OFFSET { 16, -45, 0 }  z=-0.77
-//      BOARD_MKS_ROBIN_PRO
-//      Stringified the points mesh figures for the Machine Name
-//  .4  Hard coded PID values in arrays for new dual PID entries
-//      Hard coded Linear Advace value of .14 for both extruders
-//  .5  Enabled Linear Advance
-//  .6  UART!
-//  .7  Increased Z Current to 1000 from 800
-//  .8  Biqu
-//  .9  Merge current version with upstream
-//      Z_PROBE_LOW_POINT  Now is set to -2
-//  .10 Change settings for new extruder mount.  ie X1 home position, distance between extruders, etc...
-//
-//  Yet to do:
-//    Bi-Linear Subdivision
-//    
+/*Swaggy
+*  .2  ENABLED SHOW TOTAL BABYSTEP
+*  .3  Saved Z-offset. #define NOZZLE_TO_PROBE_OFFSET { 16, -45, 0 }  z=-0.77
+*      BOARD_MKS_ROBIN_PRO
+*      Stringified the points mesh figures for the Machine Name
+*  .4  Hard coded PID values in arrays for new dual PID entries
+*      Hard coded Linear Advace value of .14 for both extruders
+*  .5  Enabled Linear Advance
+*  .6  UART!
+*  .7  Increased Z Current to 1000 from 800
+*  .8  Biqu
+*  .9  Merge current version with upstream
+*      Z_PROBE_LOW_POINT  Now is set to -2
+*  .10 Change settings for new extruder mount.  ie X1 home position, distance between extruders, etc...
+*      Enable FWRETRACT
+*      Save PID entries for both Biqu Extruders 
+* 
+*  Yet to do:
+*  
+*/    
 
 // Printer's unique ID, used by some programs to differentiate between machines.
 // Choose your own or use a service like https://www.uuidgenerator.net/version4
@@ -393,7 +395,7 @@
 
 #define HOTEND_OFFSET_X { 0.0, 367.200 } // (mm) relative X-offset for each nozzle
 #define HOTEND_OFFSET_Y { 0.0, -0.100 }  // (mm) relative Y-offset for each nozzle
-#define HOTEND_OFFSET_Z { 0.0, 0.000 }  // (mm) relative Z-offset for each nozzle
+#define HOTEND_OFFSET_Z { 0.0, 0.000 }   // (mm) relative Z-offset for each nozzle
 
 // @section machine
 
@@ -562,9 +564,9 @@
 //#define MAX31865_SENSOR_OHMS_1      100
 //#define MAX31865_CALIBRATION_OHMS_1 430
 
-#define TEMP_RESIDENCY_TIME         10  // (seconds) Time to wait for hotend to "settle" in M109
+#define TEMP_RESIDENCY_TIME         5  // (seconds) Time to wait for hotend to "settle" in M109 //Swaggy
 #define TEMP_WINDOW                  1  // (°C) Temperature proximity for the "temperature reached" timer
-#define TEMP_HYSTERESIS              3  // (°C) Temperature proximity considered "close enough" to the target
+#define TEMP_HYSTERESIS              4  // (°C) Temperature proximity considered "close enough" to the target //Swaggy
 
 #define TEMP_BED_RESIDENCY_TIME     10  // (seconds) Time to wait for bed to "settle" in M190
 #define TEMP_BED_WINDOW              1  // (°C) Temperature proximity for the "temperature reached" timer
@@ -623,7 +625,7 @@
  * (especially before PID tuning). Setting the target temperature too close to MAXTEMP guarantees
  * a MAXTEMP shutdown! Use these values to forbid temperatures being set too close to MAXTEMP.
  */
-#define HOTEND_OVERSHOOT 15   // (°C) Forbid temperatures over MAXTEMP - OVERSHOOT
+#define HOTEND_OVERSHOOT 20   // (°C) Forbid temperatures over MAXTEMP - OVERSHOOT  //Swaggy
 #define BED_OVERSHOOT    10   // (°C) Forbid temperatures over MAXTEMP - OVERSHOOT
 #define COOLER_OVERSHOOT  2   // (°C) Forbid temperatures closer than OVERSHOOT
 
@@ -647,13 +649,13 @@
   #if ENABLED(PID_PARAMS_PER_HOTEND)
     // Specify up to one value per hotend here, according to your setup.
     // If there are fewer values, the last one applies to the remaining hotends.
-    #define DEFAULT_Kp_LIST { 12.01, 34.47 }     //Swaggy Changed E0 values to Biqu
-    #define DEFAULT_Ki_LIST {  .66,  2.67 }     //Swaggy
-    #define DEFAULT_Kd_LIST { 54.3, 111.21 }   //Swaggy
+    #define DEFAULT_Kp_LIST { 21.87, 15.47 }     //Swaggy
+    #define DEFAULT_Ki_LIST {  1.69,  0.87 }     //Swaggy
+    #define DEFAULT_Kd_LIST { 70.87, 68.70 }     //Swaggy
   #else
-    #define DEFAULT_Kp  22.20
-    #define DEFAULT_Ki   1.08
-    #define DEFAULT_Kd 114.00
+    #define DEFAULT_Kp  21.87
+    #define DEFAULT_Ki   1.69
+    #define DEFAULT_Kd 70.87
   #endif
 #endif // PIDTEMP
 
@@ -747,7 +749,7 @@
   //#define PID_DEBUG             // Sends debug data to the serial port. Use 'M303 D' to toggle activation.
   //#define PID_OPENLOOP          // Puts PID in open loop. M104/M140 sets the output power from 0 to PID_MAX
   //#define SLOW_PWM_HEATERS      // PWM with very low frequency (roughly 0.125Hz=8s) and minimum state time of approximately 1s useful for heaters driven by a relay
-  #define PID_FUNCTIONAL_RANGE 10 // If the temperature difference between the target temperature and the actual temperature
+  #define PID_FUNCTIONAL_RANGE 12 // If the temperature difference between the target temperature and the actual temperature
                                   // is more than PID_FUNCTIONAL_RANGE then the PID will be shut off and the heater will be set to min/max.
 #endif
 
@@ -1692,7 +1694,7 @@
     // Experimental Subdivision of the grid by Catmull-Rom method.
     // Synthesizes intermediate points to produce a more detailed mesh.
     //
-    //#define ABL_BILINEAR_SUBDIVISION
+    #define ABL_BILINEAR_SUBDIVISION
     #if ENABLED(ABL_BILINEAR_SUBDIVISION)
       // Number of subdivisions between probe points
       #define BILINEAR_SUBDIVISIONS 3
